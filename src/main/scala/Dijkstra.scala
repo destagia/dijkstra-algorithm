@@ -31,11 +31,8 @@ class Dijkstra(data:List[Point]) {
 
     def nextStep (step:Int, now:Cell, d:Map[String, Cell], T:Set[Point], P:Set[Point]):List[Line] = {
 
-        println("step : " + step + " - - - - - - - - - - - - - - - - - - ")
-
-        d.foreach(println(_))
-
         val nextd:Map[String, Cell] = Map() ++ (for ((name, cell) <- d) yield {
+
             // dはdataと名前空間で等価
             val nowPoint = data.find(point => point.name == now.name).get
 
@@ -46,7 +43,6 @@ class Dijkstra(data:List[Point]) {
                     val prevCell = d.find(t => t._1 == prevPoint.name).get._2
                     prevPoint.neighbor.find(x => x.name == name) match {
                         case Some(node) => 
-                            println(name + " prev : " + prevName + " -> " +cell.distance +","+ node.distance + "+" + prevCell.distance)
                             if (cell.distance > node.distance + prevCell.distance) {
                                 Cell(node.distance + prevCell.distance, name, Some(now.name))
                             } else {
@@ -63,14 +59,8 @@ class Dijkstra(data:List[Point]) {
         }).toList
 
         val nowPoint = data.find(point => point.name == now.name).get
-        println()        
-        println(nowPoint)
         val nextT = T.diff(Set(nowPoint))
         val nextP = P.union(Set(nowPoint))
-        println()
-        nextT.foreach(println(_))
-        // dはdataの部分集合だから，必ず見つかる。
-        nextd.foreach(println(_))
 
         val nextList = if (!nextT.isEmpty) { 
             val nextNow = nextd.toList.filter{ t => 
@@ -90,6 +80,5 @@ class Dijkstra(data:List[Point]) {
 
         nextStep(0, Cell(0,head.name,None), d0, data.toSet, Set[Point]())
     }
-
 
 }

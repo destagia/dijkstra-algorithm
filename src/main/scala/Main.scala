@@ -24,4 +24,6 @@ object Main extends App {
     val d = new Dijkstra(List(A,B,C,D,E,F))
     val result = d.make
 
+    result.foreach(println(_))
+
 }
